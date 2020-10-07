@@ -17,7 +17,7 @@ I gathered my data by doing API pulls from Spotify and Genius. The tracks/songs 
 
 ### Cleaning the Data & Setting my Target
 
-There were some duplicated tracks, because songs would appear in different playlists. Britney Spear's 'Baby One More Time' might appear in the Playlist '1990s' and 'Best of the 90s'. Additionally in the pulls some values did not transfer over, some rows which gathered nothing were dropped, while others that had some values, were manually filled based on their searchability. 
+There were some duplicated tracks, because songs would appear in different playlists. <a href='https://www.youtube.com/watch?v=oHg5SJYRHA0'> This song</a> might appear in the Playlist '1980s', 'All out 80s', '80s Rock Anthems' and 'Best of the 80s'. Additionally in the pulls some values did not transfer over, some rows which gathered nothing were dropped, while others that had some values, were manually filled based on their searchability. 
 
 The target for my models to predict would be whether I would skip a song or not based on whether the artist has self-announced themselves in the beginning. The lyrics will be Vectorized and put through Natural Language Processing.
 

@@ -7,7 +7,7 @@ __pycache__/
 *.so
 
 # Files
-lyrics_cp.csv
+data/
 
 # Distribution / packaging
 .Python
