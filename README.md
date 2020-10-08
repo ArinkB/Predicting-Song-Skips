@@ -38,11 +38,26 @@ The Final Dataframe before Vectorizing / Modeling:
 
 ### Exploratory Data Analysis
 
+Notihing - I have horribly horribly failed in making my datasets work. I am trying to pull the appropriate data now. 
+There are 8 Notebooks in this repo (1.1-1.5 are data acquisition between Spotify and Genius) (2.1 & 2.2 Is Data Cleanup)
+(RESTART is trying to pull lyrics straight from Genius without the lyricgenius library)(untitled is where I am now)
+
+- Where it went wrong:
+    - I spent alot of time pulling the data from Spotify with the idea of matching the user behavior, I became attached to the work I put in pulling data, that I was unwilling to completely give it up.
+    - I tried to use the dataset I had already built to add lyrics column. This became a mess because the Genius API was trying to match the artist and title exactly. I attempted to fix the issue, but the options were limited (re-doing the pull made no difference, and manually cleaning it took 3+ hours for 1700 rows, of which SOMEHOW there were still rows that needed cleaning after), John and I decided that the best would be to put a list of artists together and pull the lyrics independently of the data I had already built. 
+    - Following John's suggestion and article share I started another notebook to gather lyrics for pre-selected artists, however I couldn't get the functions to work properly. (the Api would pull russian characters, or some dirty dirty lyrics, for band 'CAKE', looking at Genius there were 8+ tracks listed for CAKE, but the API would only pull 3 and only 1 of them belonging to Cake, if I set the song request to 10, it would fill the list as a repeat), this did not change between keepng the code as is (writing to .txt) or my small addition (gathering info to list to write to DF)
+ - Where I am now:
+     - Using the Lyricsgenius library I am making a call again to the Genius API with my selected artists and gathering the data that way. This method SHOULD not cause any issues, as all it will be matching is the artist name and pulling x number of tracks from them.
+     <br></br>
+     <center> And if that fails? </center>
+     <center>![SegmentLocal](https://media.giphy.com/media/ktcUyw6mBlMVa/giphy.gif "segment") </center>
+ 
+
 ### Steps
 - [x] Define the Problem
 - [x] Gathering Data
 - [x] Cleaning Data & Setting Target
-- [x] EDA
+- [ ] EDA
 - [ ] Modeling
 - [ ] Conclusion
 - [ ] Dependencies
