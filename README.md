@@ -48,10 +48,7 @@ There are 8 Notebooks in this repo (1.1-1.5 are data acquisition between Spotify
     - Following John's suggestion and article share I started another notebook to gather lyrics for pre-selected artists, however I couldn't get the functions to work properly. (the Api would pull russian characters, or some dirty dirty lyrics, for band 'CAKE', looking at Genius there were 8+ tracks listed for CAKE, but the API would only pull 3 and only 1 of them belonging to Cake, if I set the song request to 10, it would fill the list as a repeat), this did not change between keepng the code as is (writing to .txt) or my small addition (gathering info to list to write to DF)
  - Where I am now:
      - Using the Lyricsgenius library I am making a call again to the Genius API with my selected artists and gathering the data that way. This method SHOULD not cause any issues, as all it will be matching is the artist name and pulling x number of tracks from them.
-     <br></br>
-     <center> And if that fails? </center>
-     ![Alt Text](https://media.giphy.com/media/vFKqnCdLPNOKc/giphy.gif)
-     <center>![SegmentLocal](https://media.giphy.com/media/ktcUyw6mBlMVa/giphy.gif "segment") </center>
+ 
  
 
 ### Steps
