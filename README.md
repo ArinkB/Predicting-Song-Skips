@@ -50,6 +50,7 @@ There are 8 Notebooks in this repo (1.1-1.5 are data acquisition between Spotify
      - Using the Lyricsgenius library I am making a call again to the Genius API with my selected artists and gathering the data that way. This method SHOULD not cause any issues, as all it will be matching is the artist name and pulling x number of tracks from them.
      <br></br>
      <center> And if that fails? </center>
+     ![Alt Text](https://media.giphy.com/media/vFKqnCdLPNOKc/giphy.gif)
      <center>![SegmentLocal](https://media.giphy.com/media/ktcUyw6mBlMVa/giphy.gif "segment") </center>
  
 
@@ -63,7 +64,7 @@ There are 8 Notebooks in this repo (1.1-1.5 are data acquisition between Spotify
 - [ ] Dependencies
 - [ ] What's Next
 - [x] Other Avenues
-- [] Some Fun Libraries
+- [ ] Some Fun Libraries
 
 ## Dependencies
 - Python 3
