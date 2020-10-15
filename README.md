@@ -92,11 +92,24 @@ Where I am now. Because of the amount of time gathering my data sucked up, I dec
 I stratified to y due to the size of my target, and kept the stopwords at 'english'. As mentioned in my EDA there were some words that I wanted to keep in my model but I masked them instead of leaving them as is. 
 
 Of these 4 quick models for observation only the BernoulliNB with TFIDF Vectorizer performed the best. Both train and test scores are 80.24% and the f1 scores are 0.654 & 0.652, however only 56% of the words were predicted correctly by the model. 
+Update: Tried Logistic regression, Random Forest & AdaBoost with CV and TFIDF. AdaBoost with TFIDF has best score :
+
+AdaBoostClassifier with TfidfVectorizer Train Score :  88.70%
+AdaBoostClassifier with TfidfVectorizer  Test Score  :  88.51%
+
+AdaBoostClassifier with TfidfVectorizer  F1- Train Score is 0.7313969571230982
+AdaBoostClassifier with TfidfVectorizer  F1- Test Score is F1-Score is 0.7287716405605936
+
+84.19% of the words were predicted correctly by the model.
+The specificity is: 96.19%
+
+I'm working on rerunning these models with lemmitized words and seeing if there are any changes, and them moving on to RNN. 
 
 <b>What's next in my modeling?</b>
-- To tokenize or not to tokenize?
--  SVM
-- 
+- Working on Lemmatizing words and re-trying the models I have (currently running)
+- SVM
+- Regularization NN
+-
 
 
 <h3> Road Blocks </h3>
