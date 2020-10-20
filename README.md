@@ -99,16 +99,17 @@ The pipeline function puts the models through a GridSearch to find the best para
 
 As part of my pre-processing, as mentioned in my EDA there were some words that I wanted to keep in my model but I masked them instead of leaving them as is. In addition to this modeling notebook, I reran these models in a separate notebook this time, lemmatizing the lyrics to see if the scores would improve.
 
-Of these models the AdaBoost with CV and TFIDF performed the best in both notebooks. AdaBoost with TFIDF had the best scores overall:
+Of these models the AdaBoost with CV and TFIDF performed the best in both notebooks. AdaBoost with CountVectorizer had the best scores overall:
 
 ||Score|
 |--|--|
-|Train Score |88.70%|
-|Test Score | 88.51%
-|F1- Train Score |0.731|
-|F1- Test Score |0.728|
-|Precision |84.19%|
-|Specificity |96.19%|
+|Train Score |89.48%|
+|Test Score | 89.28%
+|F1- Train Score |75.42%|
+|F1- Test Score |74.89%|
+|Precision |85.61%|
+|Recall |66.57%|
+|Specificity |96.46%|
 
 All models that ran through the Lemmatizer notebook scored slightly less than their non-lemmatized self, not surprising considering that the word lemmatizer didn't have much to work with in considering the music.
 
