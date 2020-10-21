@@ -3,7 +3,7 @@
 *Capstone Final Project for DSI -- Data Classification Modeling and Visualization*
  ##### Arink Bertrand
 
- <h2><b> This Project is in Progress<span style="font-size:200%;color:red;">&star;</span> </h3><a id='model'></b></h2> 
+
 
  <h3>Define the Problem</h3><a id='obj'></a>
 
@@ -19,14 +19,15 @@
 |  | [Data Acquisition](./1_Data%20Acquisition.ipynb)|
 |  | [Data Cleanup](./2_Data%20Cleanup.ipynb)|
 |  | [EDA](./3_EDA.ipynb)|
-|  | [Models](./4_Model.ipynb)|
+|  | [Models (Start Here)](./4.1.1_Model.ipynb)|
 |ReadMe  | |
 | | [Define the Problem](#obg)|
 | | [Gathering the Data](#gather)|
 | | [Cleaning and Target](#clean)|
 | | [Data Dictionary](#dict)|
 | | [Exploratory Data Analysis](#eda)|
-| | [Model](#model)<span style="font-size:200%;color:red;">&star;</span> </h3><a id='model'>|
+| | [Model](#model)|
+| | [Conclusion](#conc)|
 | | [Dependencies](#depend)|
 | | [What's Next](#next)|
 | | [Some Fun Libraries](#fun)|
@@ -38,7 +39,7 @@ I gathered my data by doing API pulls from Spotify and Genius. Initially the tra
 
 <h3> Cleaning the Data & Setting my Target</h3><a id='clean'></a>
 
-Because I requested 100 tracks from each artists, the likeliness of getting duplicates was set. After Genius iterated though songs for the artist, it attempted to fill the requirements with Remixes or different 'versions', but the lyrics were still the same. An example of this was Fischerspooner's Emerge that appeared 10 times, because there were different Remixes, and although instrumental they may have been slightly different, lyrically they were the same. 
+Because I requested 100 tracks from each artists, the likeliness of getting duplicates was set. After Genius iterated though songs for the artist, it attempted to fill the requirements with Remixes or different 'versions', but the lyrics were still the same. An example of this was Fischerspooner's Emerge that appeared 10 times, because there were different Remixes. Although instrumentally they may have been slightly different, lyrically they were the same. 
 
 Other categories that were dropped, were songs that were instrumental only (no lyrics), artists such as Diplo, MGMT had a lot of these, Christina Perri also does lullabies, so there were a few of those in the list as well. 
 
@@ -66,7 +67,7 @@ The Final Dataframe before Vectorizing / Modeling:
 
 
 <h3> Exploratory Data Analysis</h3><a id='eda'></a>
-My target column is unbalanced at 80% 20% split. I also did have some null values remaining, however since I will not be using these columns for modeling, I was not concerned in attempting to fill them. Columns such as Featured and Aliases' null values implied that there were no Featured Artists and the main artist does not go by any aliases.
+My target column is unbalanced at 76% 24% split. I also did have some null values remaining, however since I will not be using these columns for modeling, I was not concerned in attempting to fill them. Columns such as Featured and Aliases' null values implied that there were no Featured Artists and the main artist does not go by any aliases.
 
 Prior to count vectorizing my lyrics, I looked at explicit breakdown of the tracks, how the songs that are skipped compare to the data as a whole. Despite there being more non-explicit songs, I skip heavier on the explicits. 
 
@@ -84,15 +85,15 @@ I found it surprising that I would NOT skip <a href ='https://www.youtube.com/wa
 - [x] Gathering Data
 - [x] Cleaning Data & Setting Target
 - [x] EDA
-- [ ] Modeling 
-- [ ] Conclusion
-- [ ] Dependencies
-- [ ] What's Next
+- [x] Modeling 
+- [x] Conclusion
+- [x] Dependencies
+- [x] What's Next
 - [x] Other Avenues
 - [x] Some Fun Libraries
 
 <h3> Modeling<span style="font-size:200%;color:red;">&star;</span> </h3><a id='model'></a> 
-Where I am now. 
+
 I decided to reuse the pipeline function I made for my Reddit NLP to do some modeling with Naive Bayes, Logistic Regression and AdaBoost. Each of these models were instantiated with Count Vectorizer and TFIDF Vectorizer as their transformers. 
 
 The pipeline function puts the models through a GridSearch to find the best parameters, and outputs those parameters, as well as scores.
@@ -111,29 +112,34 @@ Of these models the AdaBoost with CV and TFIDF performed the best in both notebo
 |Recall |66.57%|
 |Specificity |96.46%|
 
-All models that ran through the Lemmatizer notebook scored slightly less than their non-lemmatized self, not surprising considering that the word lemmatizer didn't have much to work with in considering the music.
+I then took my best model (Ada Boost with Count Vectorizer) and tried different re-sampling techniques. 
+![image info](./visuals/class_report_imba.PNG)
+<br>If I were to pick a re-sampling method it would be the Random Over Sampling(ROS), although it misclassified an additional 186 not skipped songs, it did classify 73 additional skipped songs. SMOTE and NearMiss found more skipped songs, but at higher loss for not skipped songs. </br>
 
 <b>What's next in my modeling?</b>
 
-- Things are going well, let's break something with Neural Networks
-
+- I am currently attempting Neural Networks, being fairly new to this idea, I have to do more research to better understand the hyper-parameters and how to get good results with imbalanced data.
 
 
 <h3> Road Blocks </h3>
 
-In the [scraped - Possible Feature Project](./scraped%20-%20Possible%20Feature%20Project) folder there are 8 Notebooks: 
-   - 1.1-1.5 are data acquisition between Spotify and Genius) 
-   - 2.1 & 2.2 Is Data Cleanup
-   - RESTART is trying to pull lyrics straight from Genius without the LyricGenius library
+The initial plan was to use the Crowd AI skip prediction challenge dataset (provided by Spotify) to get Spotify user behaviour on skipping habits, however the dataset did not have any track or artist identifiable information. I really wanted to make this work, so I decided to pull all the tracks from playlists made by Spotify and attempt to do a 'backwards' match on Crowd AI's dataset.
 
 <b>Where it went wrong:</b>
 
-- I spent a lot of time pulling the data from Spotify with the idea of matching the user behavior, I became attached to the work I put in pulling data, that I was unwilling to completely give it up.
+- I spent a lot of time pulling the data from Spotify with the idea of matching the user behaviour, once I had all the information Spotify could give me on the tracks (name, title, duration, audio features such as danceability, acoustics etc.) I compared 1 column (duration) frm my gathered data to Crowd AI's dataset, The matches in duration alone were a total of 6k rows, realizing this number would continue decreasing as I matched additional rows, I decided to pivot from this plan and determine what songs I would skip.
 
-- I tried to use the dataset I had already built to add lyrics column. This became a mess because the Genius API was trying to match the artist and title exactly. I attempted to fix the issue, but the options were limited (re-doing the pull made no difference, and manually cleaning it took 3+ hours for 1700 rows, of which SOMEHOW there were still rows that needed cleaning after), John and I decided that the best would be to put a list of artists together and pull the lyrics independently of the data I had already built. 
-- Following John's suggestion and article share I started another notebook to gather lyrics for pre-selected artists, however I couldn't get the functions to work properly. (the Api would pull russian characters, or some dirty dirty lyrics, for band 'CAKE', looking at Genius there were 8+ tracks listed for CAKE, but the API would only pull 3 and only 1 of them belonging to Cake, if I set the song request to 10, it would fill the list as a repeat), this did not change between keeping the code as is (writing to .txt) or my small addition (gathering info to list to write to DF)
+- Next, I tried to use the dataset I had already built to add a lyrics column. Using the Genius API and matching the artist and title exactly, proved to be troublesome, and caused lyrics to not be pulled in correctly, or when lyrics were not available it would scrape the entire page, despite except clauses in function. I attempted to fix the issue of miss-matched lyrics, but the options were limited (re-doing the pull made no difference, and manually cleaning it took 3+ hours for 1700 rows. 
 
-In conclusion the data gathering although it seemed easy, was the most time consuming. Now that I have the data in hand I am ready to move forward. Depending on how my models behave with unbalanced data I may have to pull more artists and lyrics, I am coming down to slim pickings. 
+<h3> Conclusion </h3><a id='conc'></a> 
+Without re-sampling the best model in predicting whether I would skip a track or not, is the AdaBoost with CountVectorizer using DecisionTree as its best estimator. It is ideal to reduce false negatives, (saying a track should be listened to, when it should be skipped)
+
+<p>
+<p align="center">
+  <img src='./visuals/ada.PNG' />
+</p>
+
+In this case with the training set the model predicted 2099 tracks that were not skipped, 77 tracks that were skipped (but should actually not be), 230 tracks that were not skipped(but should actually be skipped) and 458 tracks that are skipped. Going back to the intent of reducing false negatives, means that as it stands, out of the 2329 tracks that were marked as not skipped tracks (true negatives and false negatives), I will encounter 230 tracks that I should skip. In a world of billions of tracks, It is okay to miss tracks because they were marked as skipped (false positive), rather than encounter the tracks that I would deem 'irritable', as most streaming services stand now, unless you go searching for new tracks, their recommendation playlists are usually the same / similar tracks to what you listen to, so therefore end up missing a lot of tracks that are out there anyways.
 
 <h3> Dependencies </h3><a id='depend'></a>  
 
@@ -148,18 +154,13 @@ In conclusion the data gathering although it seemed easy, was the most time cons
 - spotipy v.2.16.0
 - TextBlob v.0.15.3
 - Sklearn v.0.23.1
-- Word
+- imblearn v.0.7.0
+- keras v.2.4.3
+- tensorflow v.2.3.1
+- nltk v.3.5
 
 <h3> What's Next </h3><a id='next'></a>  
-The initial plan was to get in-depth insights of Spotify user behaviors and predict what makes the users skip songs. However due to scope limits on information availability at this time it was not possible. In attempting to do this:
-
-- I gathered datasets from CrowdAI from a Skip Prediction Challenge that they hosted in 2018. the Data was provided to CrowdAI by Spotify and it contained user behavior and audio features, however all identifiable information to the actual song and artist were removed.
-- In an attempt to try and use this dataset, I pulled all Playlists created by Spotify (not users), pulled each track from the playlist and gathered all Audi Features for each track. I then compared a column from my gathered dataset to the Spotify supplied dataset to check for any matches.
-- Due to minimal matches (6k in a dataset of 103k columns, based on 1 column, the number of matches would decrease as additional column values were matched.), I decided to pivot the skip prediction to a more personal one. Instead of predicting if users would skip, the model will predict if I will skip the song. 
-
-<br>Considering the reason I started this project was, the pivot of the Capstone direction was not a big one and still falls within the project idea.</br>
-
-I plan to work on this data some more as a personal project and feed it through my model to see how well the model for my capstone will do with unseen data. 
+As mentioned above, the next plan is to continue tuning the model using Neural Networks, since I am fairly new to this and don't have a full grasp on the parameters, I will need to do more research and applying to get the predictions to be better than the AdaBoost Model. Once I have a stronger model than I currently have, I would like to continue with my initial plan (Spotify playlist tracks) and see if the model would correctly predict which songs I would skip from Spotify's library. I'd also like to continue to work on Spotify user skip behaviour, to get an insight of how many users skip songs for this particular reason.
 
 <h3> Fun Libraries </h3><a id='fun'></a>  
 In addition to the usual libraries that make our Data Science world spin, I found these libraries to be very useful in this Capstone:
